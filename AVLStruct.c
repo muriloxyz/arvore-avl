@@ -8,21 +8,28 @@ Nodo *insereAVL(Nodo *raiz, int chave) {
         return raiz;
     // Insercao padrao BST, na folha.
     Nodo *novo = insereBST(chave, raiz, NULL);
-    
+    // Atualiza altura dos nodos acima
+    atualizaAltura(novo->pai);
+    //Balanceamento AVL
+    raiz = balanceamentoAVL();
     return raiz;
 }
 
 Nodo *insereBST(int chave, Nodo *raiz, Nodo *pai) {
+    // Insere mantendo a propriedade BST
+    // Ignora chaves repetidas
     if (raiz == NULL)
         return novoNodo(chave, pai);
-    if (chave >= raiz->chave)
+    if (chave > raiz->chave)
         nodo->dir = insere(chave, raiz->dir, raiz);
-    else
-        nodo->esq = insere(chave, raiz->esq, raiz)
+    else if (chave < raiz->chave)
+        nodo->esq = insere(chave, raiz->esq, raiz);
     return raiz;
 }
 
-
+Nodo *balanceamentoAVL(Nodo *nodo) {
+    
+}
 
 
 
@@ -33,8 +40,21 @@ Nodo *novoNodo(int chave, Nodo *pai) {
     novo->dir = NULL;
     novo->pai = pai;
     novo->chave = chave;
-    novo->altura = pai->Altura + 1;
+    novo->altura = 0;
     return novo;
 }
 
+Nodo *rotDir(Nodo *a) {
+    
+}
 
+Nodo *rotEsq(Nodo *a) {
+
+}
+
+void atualizaAltura(Nodo *nodo) {
+    if (nodo == NULL || nodo->altura >= nodo->filho->altura+1)
+        return; 
+    nodo->altura++;
+    atualizaAltura(nodo->pai);
+}
