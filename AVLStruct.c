@@ -1,23 +1,25 @@
 #include <stdlib.h>
-
+#include <stdio.h>
 #include "AVLStruct.h"
 
-void imprimeArvore(Nodo_t *nodo, int altura) {
+void imprimeArvore(nodo_t *nodo, int altura) {
     if (nodo == NULL)
         return;
     imprimeArvore(nodo->esq, altura+1);
     printf("%d,%d\n", nodo->chave, altura);
-    imrpimeArvore(nodo->dir, altura+1);
+    imprimeArvore(nodo->dir, altura+1);
 }
 
-Nodo_t *insereAVL(Nodo_t *nodo, int chave) {
+nodo_t *insereAVL(nodo_t *nodo, int chave) {
     // Insere mantendo prop. BST
     // Inicializa nova arvore se necessario. Cria nodo de altura 1
+    printf("here0\n");
     if (nodo == NULL) 
         return novoNodo(chave);
+    printf("here1\n");
     if (chave > nodo->chave)
         nodo->dir = insereAVL(nodo->dir, chave);
-    else if(chave < raiz->chave)
+    else if(chave < nodo->chave)
         nodo->esq = insereAVL(nodo->esq, chave);
     else
         return nodo;
@@ -27,20 +29,21 @@ Nodo_t *insereAVL(Nodo_t *nodo, int chave) {
     return balanceamentoAVL(nodo);
 }
 
-Nodo *balanceamentoAVL(Nodo_t *nodo) {
+nodo_t *balanceamentoAVL(nodo_t *nodo) {
     if (nodo->fator > 1) {
         // Desbalanceamento na direita
-        if (nodo->dir->fator >= 0)
+        if ((nodo->dir != NULL) && (nodo->dir->fator >= 0)) {
             return rotEsq(nodo);
-        else {
+
+        } else {
             nodo->esq = rotDir(nodo);
             return rotEsq(nodo);
         }   
     } else if (nodo->fator < 1) {
         // Desbalanceamento na esquerda
-        if (nodo->esq->fator <= 0)
+        if ((nodo->esq != NULL) && (nodo->esq->fator <= 0)) {
             return rotDir(nodo);
-        else {
+        } else {
             nodo->dir = rotEsq(nodo);
             return rotDir(nodo);
         }        
@@ -49,9 +52,9 @@ Nodo *balanceamentoAVL(Nodo_t *nodo) {
     return nodo;
 }
 
-Nodo *novoNodo(int chave) {
+nodo_t *novoNodo(int chave) {
     // Cria um novo nodo e retorna ponteiro para o mesmo
-    Nodo_t *novo = (Nodo*) malloc(sizeof(Nodo));
+    nodo_t *novo = (nodo_t*) malloc(sizeof(nodo_t));
     novo->esq = NULL;
     novo->dir = NULL;
     novo->chave = chave;
@@ -60,7 +63,7 @@ Nodo *novoNodo(int chave) {
     return novo;
 }
 
-void atualizaAltura(Nodo_t *nodo) {
+void atualizaAltura(nodo_t *nodo) {
     int altEsq = -1;
     int altDir = -1;
     if (nodo->esq != NULL)
@@ -71,8 +74,8 @@ void atualizaAltura(Nodo_t *nodo) {
     nodo->fator = altEsq - altDir;
 }
 
-Nodo_t *rotDir(Nodo_t *a) {
-    Nodo_t *b = a->esq;
+nodo_t *rotDir(nodo_t *a) {
+    nodo_t *b = a->esq;
     a->esq = b->dir;
     b->dir = a;
     atualizaAltura(a);
@@ -80,8 +83,8 @@ Nodo_t *rotDir(Nodo_t *a) {
     return b;
 }
 
-Nodo_t *rotEsq(Nodo_t *a) {
-    Nodo_t *b = a->dir;
+nodo_t *rotEsq(nodo_t *a) {
+    nodo_t *b = a->dir;
     a->dir = b->esq;
     b->esq = a;
     atualizaAltura(a);
