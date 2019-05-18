@@ -1,8 +1,9 @@
-
-re AVL
+# Árvore  AVL
 
 Dado uma entrada de instruções e chaves numéricas, simula-se uma árvore do tipo AVL. A saída será as chaves impressas em ordem, acompanhadas de sua altura na estrutura de dados.
-*A raiz tem altura zero!*
+- *A raiz tem altura zero!*
+- *Duplicatas nao sao permitidas (ignoradas)*
+
 
 ------
 
@@ -19,7 +20,7 @@ Onde o arquivo input.txt é deste formato:
 <instrucao> <chave>
 (...)
 ```
-E o arquivo output.txt gerado sera:
+E o arquivo output.txt gerado será:
 ```
 <chave> <altura>
 <chave> <altura>
@@ -28,7 +29,11 @@ E o arquivo output.txt gerado sera:
 ---
 ### Instruções
 
-*A ser inserido*
+| Instrução | Formato | Exemplo | 
+|--|--|--|
+| Inserir | `i <chave>` | i 42 |
+| Remover | `r <chave>` | r 37 |
+
 
 ---
 #### Exemplo
@@ -58,5 +63,6 @@ Teremos uma saída:
 45,2
 48,1
 ```
-
+---
 **Projeto Produzido para a disciplina CI057 da UFPR**
+[Especificação do  trabalho](http://www.inf.ufpr.br/eduardo/ensino/ci057/2019-1/trab.html)
