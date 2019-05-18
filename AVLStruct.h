@@ -1,12 +1,21 @@
 #ifndef __AVLSTRUCT__
 #define __AVLSTRUCT__
 
-typedef struct Nodo {
-    Nodo *esq;
-    Nodo *pai;
-    Nodo *dir;
+typedef struct nodo_t {
     int chave;
     int altura;
-}Nodo;
+    int fator; // Fator de balanceamento
+    struct nodo_t *esq;
+    struct nodo_t *dir;
+} nodo_t;
+
+void imprimeArvore(nodo_t *nodo, int altura);
+nodo_t *insereAVL(nodo_t *nodo, int chave);
+nodo_t *balanceamentoAVL(nodo_t *nodo);
+nodo_t *novoNodo(int chave);
+void atualizaAltura(nodo_t *nodo);
+nodo_t *rotDir(nodo_t *a);
+nodo_t *rotEsq(nodo_t *a);
+int max(int a, int b);
 
 #endif
