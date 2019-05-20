@@ -2,6 +2,9 @@ myavl: myavl.o AVLStruct.o
 #Compila
 	gcc myavl.o AVLStruct.o -o myavl -Wall
 
+debug: myavl.o AVLStruct.o
+	gcc myavl.o AVLStruct.o -g -Wall
+
 clean:
 #Remove Arquivos Objeto
 	rm *.o
