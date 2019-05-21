@@ -11,7 +11,7 @@ clean:
 
 purge:
 #Remove tudo o que nao for uma source file
-	rm -f myavl *.o
+	rm -f myavl *.o a.out
 
 myavl.o: myavl.c
 	gcc -c myavl.c -Wall
