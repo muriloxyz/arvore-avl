@@ -6,17 +6,17 @@ void imprimeArvore(nodo_t *nodo, int altura) {
     if (nodo == NULL)
         return;
     imprimeArvore(nodo->esq, altura+1);
-    printf("%d,%d\n", nodo->chave, altura);
+    printf("%d,%d,%d\n", nodo->chave, altura, nodo->fator);
     imprimeArvore(nodo->dir, altura+1);
 }
 
 nodo_t *insereAVL(nodo_t *nodo, int chave) {
     // Insere mantendo prop. BST
     // Inicializa nova arvore se necessario. Cria nodo de altura 1
-    printf("here0\n");
     if (nodo == NULL) 
         return novoNodo(chave);
-    printf("here1\n");
+    //printf("Chave: %d\n Altura: %d\n Fator:%d\n----\n",
+    //        nodo->chave, nodo->altura, nodo->fator);
     if (chave > nodo->chave)
         nodo->dir = insereAVL(nodo->dir, chave);
     else if(chave < nodo->chave)
@@ -31,21 +31,21 @@ nodo_t *insereAVL(nodo_t *nodo, int chave) {
 
 nodo_t *balanceamentoAVL(nodo_t *nodo) {
     if (nodo->fator > 1) {
-        // Desbalanceamento na direita
-        if ((nodo->dir != NULL) && (nodo->dir->fator >= 0)) {
-            return rotEsq(nodo);
+        // Desbalanceamento na esquerda
+        if (nodo->esq->fator > 0) {
+            return rotDir(nodo);
 
         } else {
-            nodo->esq = rotDir(nodo);
-            return rotEsq(nodo);
+            nodo->esq = rotEsq(nodo->esq);
+            return rotDir(nodo);
         }   
-    } else if (nodo->fator < 1) {
-        // Desbalanceamento na esquerda
-        if ((nodo->esq != NULL) && (nodo->esq->fator <= 0)) {
-            return rotDir(nodo);
+    } else if (nodo->fator < -1) {
+        // Desbalanceamento na direita
+        if (nodo->dir->fator < 0) {
+            return rotEsq(nodo);
         } else {
-            nodo->dir = rotEsq(nodo);
-            return rotDir(nodo);
+            nodo->dir = rotDir(nodo->dir);
+            return rotEsq(nodo);
         }        
     }
     // Nodo balanceado.
@@ -58,7 +58,7 @@ nodo_t *novoNodo(int chave) {
     novo->esq = NULL;
     novo->dir = NULL;
     novo->chave = chave;
-    novo->altura = 1;
+    novo->altura = 0;
     novo->fator = 0;
     return novo;
 }

@@ -10,9 +10,11 @@ int main() {
     nodo_t *arvore = NULL;
     while (scanf("%c %d\n", &instrucao, &chave) >= 0) {
         // Operacoes na arvore
-        if (instrucao == 'i')
+        if (instrucao == 'i') {
             arvore = insereAVL(arvore, chave);
-        else if (instrucao == 'r')
+            imprimeArvore(arvore, 0);
+            printf("------------------\n");
+        } else if (instrucao == 'r')
             printf("nao i");
     }
     imprimeArvore(arvore, 0);
