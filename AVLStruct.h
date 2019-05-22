@@ -13,6 +13,7 @@ void imprimeArvore(nodo_t *nodo, int altura);
 nodo_t *insereAVL(nodo_t *nodo, int chave);
 nodo_t *balanceamentoAVL(nodo_t *nodo);
 nodo_t *novoNodo(int chave);
+nodo_t *achaSucessor(nodo_t *nodo);
 void atualizaAltura(nodo_t *nodo);
 nodo_t *rotDir(nodo_t *a);
 nodo_t *rotEsq(nodo_t *a);

@@ -29,6 +29,45 @@ nodo_t *insereAVL(nodo_t *nodo, int chave) {
     return balanceamentoAVL(nodo);
 }
 
+nodo_t *removeAVL(nodo_t *nodo, int chave) {
+    // Remocao BST
+    if (nodo == NULL)
+        return nodo;
+
+    if (chave > nodo->chave)
+        nodo->dir = removeAVL(nodo->dir, chave);
+    else if (chave < nodo->chave) 
+        nodo->esq = removeAVL(nodo->esq, chave);
+    else {
+       if ((nodo->dir != NULL) && (nodo->esq != NULL)) {
+           nodo_t *sucessor = achaSucessor(nodo);
+           nodo->chave = sucessor->chave;
+           nodo->dir = removeAVL(nodo->dir, sucessor->chave);
+       } else if (nodo->dir != NULL) {
+           *nodo = *nodo->dir;
+            free(nodo->dir);   
+       } else if (nodo-> esq != NULL) {
+           *nodo = *nodo->esq;
+           free(nodo->esq);
+       } else {
+           free(nodo);
+           nodo = NULL;
+       }
+    }
+
+    if (nodo == NULL) return nodo;
+    atualizaAltura(nodo);
+    return balanceamentoAVL(nodo);
+
+}
+
+nodo_t *achaSucessor(nodo_t *nodo) {
+    nodo_t *aux = nodo->dir; 
+    while (aux->esq != NULL)
+        aux = aux->esq;
+    return aux;
+}
+
 nodo_t *balanceamentoAVL(nodo_t *nodo) {
     if (nodo->fator > 1) {
         // Desbalanceamento na esquerda

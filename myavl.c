@@ -14,8 +14,11 @@ int main() {
             arvore = insereAVL(arvore, chave);
             imprimeArvore(arvore, 0);
             printf("------------------\n");
-        } else if (instrucao == 'r')
-            printf("nao i");
+        } else if (instrucao == 'r') {
+            arvore = removeAVL(arvore, chave);
+            imprimeArvore(arvore, 0);
+            printf("------------------\n");
+        }
     }
     imprimeArvore(arvore, 0);
     return 0;
