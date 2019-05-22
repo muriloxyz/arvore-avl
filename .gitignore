@@ -1,2 +1,5 @@
 testes
 *.in
+*.o
+a.out
+myavl
