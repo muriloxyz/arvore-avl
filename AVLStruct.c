@@ -6,7 +6,7 @@ void imprimeArvore(nodo_t *nodo, int altura) {
     if (nodo == NULL)
         return;
     imprimeArvore(nodo->esq, altura+1);
-    printf("%d,%d,%d\n", nodo->chave, altura, nodo->fator);
+    printf("Key:%d, Alt:%d, Alt_nodo: %d, Fator: %d\n", nodo->chave, altura, nodo->altura, nodo->fator);
     imprimeArvore(nodo->dir, altura+1);
 }
 
@@ -40,15 +40,17 @@ nodo_t *removeAVL(nodo_t *nodo, int chave) {
         nodo->esq = removeAVL(nodo->esq, chave);
     else {
        if ((nodo->dir != NULL) && (nodo->esq != NULL)) {
-           nodo_t *sucessor = achaSucessor(nodo);
+           nodo_t *sucessor = achaSucessor(nodo->dir);
            nodo->chave = sucessor->chave;
            nodo->dir = removeAVL(nodo->dir, sucessor->chave);
        } else if (nodo->dir != NULL) {
-           *nodo = *nodo->dir;
-            free(nodo->dir);   
+            nodo_t *aux = nodo;
+            nodo = nodo->dir;
+            free(aux);   
        } else if (nodo-> esq != NULL) {
-           *nodo = *nodo->esq;
-           free(nodo->esq);
+           nodo_t *aux = nodo;
+           nodo = nodo->esq;
+           free(aux);
        } else {
            free(nodo);
            nodo = NULL;
@@ -62,13 +64,15 @@ nodo_t *removeAVL(nodo_t *nodo, int chave) {
 }
 
 nodo_t *achaSucessor(nodo_t *nodo) {
-    nodo_t *aux = nodo->dir; 
+    nodo_t *aux = nodo; 
     while (aux->esq != NULL)
         aux = aux->esq;
     return aux;
 }
 
 nodo_t *balanceamentoAVL(nodo_t *nodo) {
+    if (nodo->chave == 40)
+        printf("**Fator: %d  --- Altura: %d**\n", nodo->fator, nodo->altura);
     if (nodo->fator > 1) {
         // Desbalanceamento na esquerda
         if (nodo->esq->fator > 0) {
@@ -103,6 +107,9 @@ nodo_t *novoNodo(int chave) {
 }
 
 void atualizaAltura(nodo_t *nodo) {
+    
+    if (nodo->chave == 40)
+        printf("**Fator: %d  --- Altura: %d**\n", nodo->fator, nodo->altura);
     int altEsq = -1;
     int altDir = -1;
     if (nodo->esq != NULL)
