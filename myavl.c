@@ -12,12 +12,12 @@ int main() {
         // Operacoes na arvore
         if (instrucao == 'i') {
             arvore = insereAVL(arvore, chave);
-            imprimeArvore(arvore, 0);
-            printf("------------------\n");
+            //imprimeArvore(arvore, 0);
+            //printf("------------------\n");
         } else if (instrucao == 'r') {
             arvore = removeAVL(arvore, chave);
-            imprimeArvore(arvore, 0);
-            printf("------------------\n");
+            //imprimeArvore(arvore, 0);
+            //printf("------------------\n");
         }
     }
     imprimeArvore(arvore, 0);
