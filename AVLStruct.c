@@ -40,9 +40,9 @@ nodo_t *removeAVL(nodo_t *nodo, int chave) {
         nodo->esq = removeAVL(nodo->esq, chave);
     else {
        if ((nodo->dir != NULL) && (nodo->esq != NULL)) {
-           nodo_t *sucessor = achaSucessor(nodo->esq);
-           nodo->chave = sucessor->chave;
-           nodo->esq = removeAVL(nodo->esq, sucessor->chave);
+           nodo_t *antecessor = achaAntecessor(nodo->esq);
+           nodo->chave = antecessor->chave;
+           nodo->esq = removeAVL(nodo->esq, antecessor->chave);
        } else if (nodo->dir != NULL) {
             nodo_t *aux = nodo;
             nodo = nodo->dir;
@@ -63,11 +63,11 @@ nodo_t *removeAVL(nodo_t *nodo, int chave) {
 
 }
 
-nodo_t *achaSucessor(nodo_t *nodo) {
+nodo_t *achaAntecessor(nodo_t *nodo) {
     nodo_t *aux = nodo; 
     while (aux->dir != NULL)
         aux = aux->dir;
-    //printf("Sucessor:%d \n", aux->chave);
+    //printf("Antecessor:%d \n", aux->chave);
     return aux;
 }
 
