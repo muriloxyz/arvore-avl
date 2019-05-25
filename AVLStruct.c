@@ -6,7 +6,7 @@ void imprimeArvore(nodo_t *nodo, int altura) {
     if (nodo == NULL)
         return;
     imprimeArvore(nodo->esq, altura+1);
-    printf("Key:%d, Alt:%d, Alt_nodo: %d, Fator: %d\n", nodo->chave, altura, nodo->altura, nodo->fator);
+    printf("%d,%d\n", nodo->chave, altura);
     imprimeArvore(nodo->dir, altura+1);
 }
 
@@ -40,9 +40,9 @@ nodo_t *removeAVL(nodo_t *nodo, int chave) {
         nodo->esq = removeAVL(nodo->esq, chave);
     else {
        if ((nodo->dir != NULL) && (nodo->esq != NULL)) {
-           nodo_t *sucessor = achaSucessor(nodo->dir);
+           nodo_t *sucessor = achaSucessor(nodo->esq);
            nodo->chave = sucessor->chave;
-           nodo->dir = removeAVL(nodo->dir, sucessor->chave);
+           nodo->esq = removeAVL(nodo->esq, sucessor->chave);
        } else if (nodo->dir != NULL) {
             nodo_t *aux = nodo;
             nodo = nodo->dir;
@@ -65,26 +65,26 @@ nodo_t *removeAVL(nodo_t *nodo, int chave) {
 
 nodo_t *achaSucessor(nodo_t *nodo) {
     nodo_t *aux = nodo; 
-    while (aux->esq != NULL)
-        aux = aux->esq;
+    while (aux->dir != NULL)
+        aux = aux->dir;
+    //printf("Sucessor:%d \n", aux->chave);
     return aux;
 }
 
 nodo_t *balanceamentoAVL(nodo_t *nodo) {
-    if (nodo->chave == 40)
-        printf("**Fator: %d  --- Altura: %d**\n", nodo->fator, nodo->altura);
     if (nodo->fator > 1) {
         // Desbalanceamento na esquerda
-        if (nodo->esq->fator > 0) {
+        if (nodo->esq->fator >= 0) {
             return rotDir(nodo);
 
         } else {
             nodo->esq = rotEsq(nodo->esq);
             return rotDir(nodo);
         }   
-    } else if (nodo->fator < -1) {
+    }
+    if (nodo->fator < -1) {
         // Desbalanceamento na direita
-        if (nodo->dir->fator < 0) {
+        if (nodo->dir->fator <= 0) {
             return rotEsq(nodo);
         } else {
             nodo->dir = rotDir(nodo->dir);
@@ -107,9 +107,6 @@ nodo_t *novoNodo(int chave) {
 }
 
 void atualizaAltura(nodo_t *nodo) {
-    
-    if (nodo->chave == 40)
-        printf("**Fator: %d  --- Altura: %d**\n", nodo->fator, nodo->altura);
     int altEsq = -1;
     int altDir = -1;
     if (nodo->esq != NULL)
@@ -121,6 +118,7 @@ void atualizaAltura(nodo_t *nodo) {
 }
 
 nodo_t *rotDir(nodo_t *a) {
+    //printf("rotdir\n");
     nodo_t *b = a->esq;
     a->esq = b->dir;
     b->dir = a;
@@ -130,6 +128,7 @@ nodo_t *rotDir(nodo_t *a) {
 }
 
 nodo_t *rotEsq(nodo_t *a) {
+    //printf("rotesq\n");
     nodo_t *b = a->dir;
     a->dir = b->esq;
     b->esq = a;
