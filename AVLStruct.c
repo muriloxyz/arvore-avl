@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include "AVLStruct.h"
 
+/* Esta funcao recebe a raiz de uma arvore e realiza a impressao 
+   EM ORDEM da arvore (as chaves acompanham sua altura na arvore) */
 void imprimeArvore(nodo_t *nodo, int altura) {
     if (nodo == NULL)
         return;
@@ -10,6 +12,9 @@ void imprimeArvore(nodo_t *nodo, int altura) {
     imprimeArvore(nodo->dir, altura+1);
 }
 
+/* Faz a insercao AVL! Primeiro executa-se uma insercao BST
+   Atualiza a altura/fator de balanceamento e executa o 
+   balanceamento se necessario */
 nodo_t *insereAVL(nodo_t *nodo, int chave) {
     // Insere mantendo prop. BST
     // Inicializa nova arvore se necessario. Cria nodo de altura 1
@@ -29,6 +34,9 @@ nodo_t *insereAVL(nodo_t *nodo, int chave) {
     return balanceamentoAVL(nodo);
 }
 
+/* Faz a remocao AVL! Primeira executa-se uma remocao BST
+   Atualiza a altura/fator de balanceamento e executa o 
+   balanceamento se necessario */
 nodo_t *removeAVL(nodo_t *nodo, int chave) {
     // Remocao BST
     if (nodo == NULL)
@@ -62,7 +70,7 @@ nodo_t *removeAVL(nodo_t *nodo, int chave) {
     return balanceamentoAVL(nodo);
 
 }
-
+/* Acha o nodo com maior chave em uma arvore */
 nodo_t *achaAntecessor(nodo_t *nodo) {
     nodo_t *aux = nodo; 
     while (aux->dir != NULL)
@@ -72,8 +80,8 @@ nodo_t *achaAntecessor(nodo_t *nodo) {
 }
 
 nodo_t *balanceamentoAVL(nodo_t *nodo) {
+    // Desbalanceamento na esquerda
     if (nodo->fator > 1) {
-        // Desbalanceamento na esquerda
         if (nodo->esq->fator >= 0) {
             return rotDir(nodo);
 
@@ -82,8 +90,9 @@ nodo_t *balanceamentoAVL(nodo_t *nodo) {
             return rotDir(nodo);
         }   
     }
+
+    // Desbalanceamento na direita
     if (nodo->fator < -1) {
-        // Desbalanceamento na direita
         if (nodo->dir->fator <= 0) {
             return rotEsq(nodo);
         } else {
@@ -95,8 +104,9 @@ nodo_t *balanceamentoAVL(nodo_t *nodo) {
     return nodo;
 }
 
+/* Dada uma chave, cria-se um novo nodo com altura e balanceamento zero
+   Os ponteiros para filhos sao nulos */
 nodo_t *novoNodo(int chave) {
-    // Cria um novo nodo e retorna ponteiro para o mesmo
     nodo_t *novo = (nodo_t*) malloc(sizeof(nodo_t));
     novo->esq = NULL;
     novo->dir = NULL;
@@ -106,9 +116,14 @@ nodo_t *novoNodo(int chave) {
     return novo;
 }
 
+
+/* Esta funcao atualiza a altura E fator de balanceamento do nodo!
+   Utiliza informacao dos filhos do nodo para calcular a atualizacao
+   Importante utilizar de baixo para cima */
 void atualizaAltura(nodo_t *nodo) {
     int altEsq = -1;
     int altDir = -1;
+    // Se filhos nao forem nulos, entao atualize as variaveis 
     if (nodo->esq != NULL)
         altEsq = nodo->esq->altura;
     if (nodo->dir != NULL)
@@ -117,6 +132,7 @@ void atualizaAltura(nodo_t *nodo) {
     nodo->fator = altEsq - altDir;
 }
 
+/* Funcao BST de rotacao para direita */
 nodo_t *rotDir(nodo_t *a) {
     //printf("rotdir\n");
     nodo_t *b = a->esq;
@@ -126,7 +142,7 @@ nodo_t *rotDir(nodo_t *a) {
     atualizaAltura(b);
     return b;
 }
-
+/* Funcao BST de rotacao para esquerda */
 nodo_t *rotEsq(nodo_t *a) {
     //printf("rotesq\n");
     nodo_t *b = a->dir;
@@ -137,6 +153,7 @@ nodo_t *rotEsq(nodo_t *a) {
     return b;
 }
 
+/* Funcao auxiliar que recebe dois inteiros e retorna o maior deles */
 int max(int a, int b) {
     if (a >= b)
         return a;

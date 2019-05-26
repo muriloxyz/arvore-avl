@@ -9,7 +9,8 @@ int main() {
     // Quebra se scanf falahar em colher stdin
     nodo_t *arvore = NULL;
     while (scanf("%c %d\n", &instrucao, &chave) >= 0) {
-        // Operacoes na arvore
+        /* Operacoes na arvore
+           Atualiza raiz quando necessario */
         if (instrucao == 'i') {
             arvore = insereAVL(arvore, chave);
             //imprimeArvore(arvore, 0);
