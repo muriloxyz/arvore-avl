@@ -16,8 +16,10 @@ nodo_t *balanceamentoAVL(nodo_t *nodo);
 nodo_t *novoNodo(int chave);
 nodo_t *achaAntecessor(nodo_t *nodo);
 void atualizaAltura(nodo_t *nodo);
-nodo_t *rotDir(nodo_t *a);
-nodo_t *rotEsq(nodo_t *a);
+nodo_t *rotDir(nodo_t *nodo);
+nodo_t *rotEsq(nodo_t *nodo);
+nodo_t *rotEsqDir(nodo_t *nodo);
+nodo_t *rotDirEsq(nodo_t *nodo);
 int max(int a, int b);
 
 #endif
