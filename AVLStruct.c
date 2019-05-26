@@ -78,7 +78,6 @@ nodo_t *achaAntecessor(nodo_t *nodo) {
     nodo_t *aux = nodo; 
     while (aux->dir != NULL)
         aux = aux->dir;
-    //printf("Antecessor:%d \n", aux->chave);
     return aux;
 }
 
@@ -135,7 +134,6 @@ void atualizaAltura(nodo_t *nodo) {
 
 /* Funcao BST de rotacao para direita */
 nodo_t *rotDir(nodo_t *nodo) {
-    //printf("rotdir\n");
     nodo_t *aux = nodo->esq;
     nodo->esq = aux->dir;
     aux->dir = nodo;
@@ -145,7 +143,6 @@ nodo_t *rotDir(nodo_t *nodo) {
 }
 /* Funcao BST de rotacao para esquerda */
 nodo_t *rotEsq(nodo_t *nodo) {
-    //printf("rotesq\n");
     nodo_t *aux = nodo->dir;
     nodo->dir = aux->esq;
     aux->esq = nodo;

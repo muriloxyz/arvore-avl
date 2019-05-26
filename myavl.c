@@ -11,15 +11,10 @@ int main() {
     while (scanf("%c %d\n", &instrucao, &chave) >= 0) {
         /* Operacoes na arvore
            Atualiza raiz quando necessario */
-        if (instrucao == 'i') {
+        if (instrucao == 'i')
             arvore = insereAVL(arvore, chave);
-            //imprimeArvore(arvore, 0);
-            //printf("------------------\n");
-        } else if (instrucao == 'r') {
+        else if (instrucao == 'r')
             arvore = removeAVL(arvore, chave);
-            //imprimeArvore(arvore, 0);
-            //printf("------------------\n");
-        }
     }
     imprimeArvore(arvore, 0);
     return 0;
