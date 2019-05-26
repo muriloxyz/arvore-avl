@@ -17,18 +17,17 @@ void imprimeArvore(nodo_t *nodo, int altura) {
    balanceamento se necessario */
 nodo_t *insereAVL(nodo_t *nodo, int chave) {
     // Insere mantendo prop. BST
-    // Inicializa nova arvore se necessario. Cria nodo de altura 1
     if (nodo == NULL) 
         return novoNodo(chave);
     //printf("Chave: %d\n Altura: %d\n Fator:%d\n----\n",
     //        nodo->chave, nodo->altura, nodo->fator);
     if (chave > nodo->chave)
         nodo->dir = insereAVL(nodo->dir, chave);
-    else if(chave < nodo->chave)
+    else if (chave < nodo->chave)
         nodo->esq = insereAVL(nodo->esq, chave);
     else
         return nodo;
-    // Atualiza altura do nodo
+    // Atualiza altura e fatorBalanceamento do nodo
     atualizaAltura(nodo);
     //Balanceamento AVL
     return balanceamentoAVL(nodo);
@@ -38,10 +37,11 @@ nodo_t *insereAVL(nodo_t *nodo, int chave) {
    Atualiza a altura/fator de balanceamento e executa o 
    balanceamento se necessario */
 nodo_t *removeAVL(nodo_t *nodo, int chave) {
-    // Remocao BST
+    // Nodo nao encontrado
     if (nodo == NULL)
         return nodo;
 
+    // Remocao BST
     if (chave > nodo->chave)
         nodo->dir = removeAVL(nodo->dir, chave);
     else if (chave < nodo->chave) 
@@ -65,11 +65,14 @@ nodo_t *removeAVL(nodo_t *nodo, int chave) {
        }
     }
 
+    // Retorna se o nodo nao existir mais
     if (nodo == NULL) return nodo;
+    // Atualiza altura e fatorBalanceamento do nodo
     atualizaAltura(nodo);
+    // Balanceamento AVL
     return balanceamentoAVL(nodo);
-
 }
+
 /* Acha o nodo com maior chave em uma arvore */
 nodo_t *achaAntecessor(nodo_t *nodo) {
     nodo_t *aux = nodo; 
@@ -83,23 +86,21 @@ nodo_t *balanceamentoAVL(nodo_t *nodo) {
     // Desbalanceamento na esquerda
     if (nodo->fator > 1) {
         if (nodo->esq->fator >= 0) {
-            return rotDir(nodo);
-
+            return rotDir(nodo); // Caso Esquerda-Esquerda
         } else {
-            nodo->esq = rotEsq(nodo->esq);
-            return rotDir(nodo);
-        }   
+            return rotEsqDir(nodo); // Caso Esquerda-Direita
+        }
     }
 
     // Desbalanceamento na direita
     if (nodo->fator < -1) {
         if (nodo->dir->fator <= 0) {
-            return rotEsq(nodo);
+            return rotEsq(nodo); // Caso Direita-Direita
         } else {
-            nodo->dir = rotDir(nodo->dir);
-            return rotEsq(nodo);
-        }        
+            return rotDirEsq(nodo); // Caso Direita-esquerda
+        }
     }
+
     // Nodo balanceado.
     return nodo;
 }
@@ -133,24 +134,34 @@ void atualizaAltura(nodo_t *nodo) {
 }
 
 /* Funcao BST de rotacao para direita */
-nodo_t *rotDir(nodo_t *a) {
+nodo_t *rotDir(nodo_t *nodo) {
     //printf("rotdir\n");
-    nodo_t *b = a->esq;
-    a->esq = b->dir;
-    b->dir = a;
-    atualizaAltura(a);
-    atualizaAltura(b);
-    return b;
+    nodo_t *aux = nodo->esq;
+    nodo->esq = aux->dir;
+    aux->dir = nodo;
+    atualizaAltura(nodo);
+    atualizaAltura(aux);
+    return aux;
 }
 /* Funcao BST de rotacao para esquerda */
-nodo_t *rotEsq(nodo_t *a) {
+nodo_t *rotEsq(nodo_t *nodo) {
     //printf("rotesq\n");
-    nodo_t *b = a->dir;
-    a->dir = b->esq;
-    b->esq = a;
-    atualizaAltura(a);
-    atualizaAltura(b);
-    return b;
+    nodo_t *aux = nodo->dir;
+    nodo->dir = aux->esq;
+    aux->esq = nodo;
+    atualizaAltura(nodo);
+    atualizaAltura(aux);
+    return aux;
+}
+
+nodo_t *rotEsqDir(nodo_t *nodo) {
+    nodo->esq = rotEsq(nodo->esq);
+    return rotDir(nodo);
+}
+
+nodo_t *rotDirEsq(nodo_t *nodo) {
+    nodo->dir = rotDir(nodo->dir);
+    return rotEsq(nodo);
 }
 
 /* Funcao auxiliar que recebe dois inteiros e retorna o maior deles */
