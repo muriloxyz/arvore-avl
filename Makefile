@@ -1,16 +1,17 @@
-myavl: myavl.o AVLStruct.o
 #Compila
+myavl: myavl.o AVLStruct.o
 	gcc myavl.o AVLStruct.o -o myavl -Wall
 
+# Gera "a.out" para uso no gdb
 debug: myavl.o AVLStruct.o
 	gcc myavl.o AVLStruct.o -g -Wall
 
+# Remove os arquivos .o
 clean:
-#Remove Arquivos Objeto
 	rm *.o
 
+#Remove os executaveis e arquivos .o
 purge:
-#Remove tudo o que nao for uma source file
 	rm -f myavl *.o a.out
 
 myavl.o: myavl.c
