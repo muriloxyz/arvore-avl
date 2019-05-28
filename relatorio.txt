@@ -1,0 +1,68 @@
+RELATORIO TRABALHO CI057
+Murilo Santos Ferreira (GRR20186317)
+
+*ARQUIVO "myavl.c"
+    Funcao main(): Em um while loop, le o stdin ate que o scanf() falhe
+    em coletar o formato desejado (instrucao chave). Apos cada operacao,
+    a raiz eh atualizada se necessario. Apos o loop, a arvore eh impressa
+    no formato requerido.
+
+*ARQUIVO "AVLStruct.h" 
+    Simplesmente a header para o arquivo AVLStruct.c
+    
+    struct nodo_t: Na minha implementacao, o tipo nodo tem 5 campos:
+        - ptr filho esquerdo     (nodo_t *esq)
+        - ptr filho direito      (nodo_t *dir)
+        - fator de balanceamento (int fator)
+        - altura                 (int altura)
+        - chave                  (int chave)
+    **Por facilidade, preferi guardar o fator de balanceamento no struct**
+
+*ARQUIVO "AVLStruct.c"
+    Funcao imprimeArvore(nodo, altura): Faz uso da recursao para imprimir a arvore
+    EM ORDEM. Quando chamado, deve-se passar a raiz da arvore e o int zero para
+    funcionamento correto. Esta funcao nao usa a altura dentro da struct.
+
+    Funcao insereAVL(raiz, chave): Esta funcao faz primeiramente faz a insercao BST,
+    ignorando chaves que se repetem. Apos o novo nodo ser inserido, as alturas/fatores
+    de balanceamento sao atualizados de baixo para cima com ajuda da recursao E
+    nodos rotacionados se necessario.
+    (propriedade: |alt(filho_esq) - alt(filho_dir)| < 2). 
+
+    Funcao removeAVL(raiz, chave): Apos percorrer arvore com a propriedade BST, se o
+    nodo for encontrado ele sera removido.
+    Primeiro, eh executado a remocao BST: 
+        - Se estiver na folha: sera removido.
+        - Se tiver um filho: linka o filho do atual ao pai do nodo, remove o nodo.
+        - Se tiver dois filhos: acha-se o **ANTECESSOR** do nodo (quando implementado com 
+        o mtd. do sucessor, os casos de teste falhavam). A chave do antecessor eh
+        copiada para o nodo atual e o antecessor eh removido da subarvore esquerda.
+    Apos isto, eh feito a atualizacao das alturas/fatores de baixo para cima
+     e tambem o balanceamento.
+    assim como na insercao.
+
+    Funcao balanceamentoAVL(nodo): Essa funcao verifica o fator de balanceamento de
+    balanceamento do nodo e faz as operacoes necessarios. Se este estiver balanceado,
+    eh retornado de maneira intacta. Caso contrario, entao existem 4 casos de rotacao
+    para cada tipo de desbalanceamento.
+    A formula do fator eh dada por altura(filho_esquerdo) - altura(filho_direito),
+    entao:
+    - Caso o fator de balanceamento seja maior que 1, ha um desbalanceamento na esquerda
+        - Se fator_balanceamento(filho>= 0) entao rotDir(nodo). Dupla-Esquerda
+        - Se fator_balanceamento(filho < 0) entao rotEsqDir(nodo). Esquerda-Direita
+    - Caso o fator de balanceamento seja menor que -1, ha um desbalanceamento na direita
+        - Se fator_balanceamento(filho<= 0) entao rotEsq(nodo). Dupla-Direita
+        - Se fator_balanceamento(filho > 0) entao rotDirEsq(nodo). Direita-Esquerda
+    Apos isto, a subarvore estara balanceada de acordo com a propriedade AVL.
+
+    Funcao novoNodo(chave): simplesmente retorna um ponteiro para um novo nodo,
+    este alocado dinamicamente. Alem da chave, tem todos os campos neutros.
+    
+    Funcao atualizaAltura(nodo): com informacao dos filhos, o fator de balanceamento e 
+    altura do nodo sao atualizados. 
+        - Altura: calcula qual dos filhos tem a maior altura e entao usa este valor + 1
+          para ser usado como a nova altura.
+        - Fator: altura(filho_esq) - altura(filho_dir)
+    *Para o funcionamento correto, deve ser usada de baixo para cima na arvore.* 
+
+    As outras funcoes (rotacoes e auxiliares) sao triviais.
