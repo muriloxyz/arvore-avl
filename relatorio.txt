@@ -1,6 +1,13 @@
 RELATORIO TRABALHO CI057
 Murilo Santos Ferreira (GRR20186317)
 
+Particularidades principais:
+    - Faz remocao pelo antecessor
+    - O fator de balanceamento eh guardado no nodo
+    - Duplicatas nao sao permitidas
+    - Maioria das funcoes modularizadas
+
+
 *ARQUIVO "myavl.c"
     Funcao main(): Em um while loop, le o stdin ate que o scanf() falhe
     em coletar o formato desejado (instrucao chave). Apos cada operacao,
