@@ -19,8 +19,7 @@ nodo_t *insereAVL(nodo_t *nodo, int chave) {
     // Insere mantendo prop. BST
     if (nodo == NULL) 
         return novoNodo(chave);
-    //printf("Chave: %d\n Altura: %d\n Fator:%d\n----\n",
-    //        nodo->chave, nodo->altura, nodo->fator);
+
     if (chave > nodo->chave)
         nodo->dir = insereAVL(nodo->dir, chave);
     else if (chave < nodo->chave)
@@ -48,18 +47,23 @@ nodo_t *removeAVL(nodo_t *nodo, int chave) {
         nodo->esq = removeAVL(nodo->esq, chave);
     else {
        if ((nodo->dir != NULL) && (nodo->esq != NULL)) {
+           //nodo com dois filhos 
            nodo_t *antecessor = achaAntecessor(nodo->esq);
            nodo->chave = antecessor->chave;
+           //remove antecessor na subarvore esquerda
            nodo->esq = removeAVL(nodo->esq, antecessor->chave);
        } else if (nodo->dir != NULL) {
-            nodo_t *aux = nodo;
-            nodo = nodo->dir;
-            free(aux);   
+           //nodo com um filho na direita
+           nodo_t *aux = nodo;
+           nodo = nodo->dir;
+           free(aux);   
        } else if (nodo-> esq != NULL) {
+           //nodo com um filho na esquerda
            nodo_t *aux = nodo;
            nodo = nodo->esq;
            free(aux);
        } else {
+           // nodo sem filho
            free(nodo);
            nodo = NULL;
        }
